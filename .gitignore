@@ -1,0 +1,40 @@
+# Docker関連
+*.log
+*.pid
+*.gz
+*.tar
+*.docker
+
+# 依存関係
+node_modules/
+.env
+
+# コンパイルされたファイル
+dist/
+build/
+out/
+
+# IDE/エディタ関連
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# Node.jsのログ
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# コンテナ関連
+.docker/
+
+# パスワード・機密ファイル
+*.env
+
+# その他の一時ファイル
+*.bak
+*.swp

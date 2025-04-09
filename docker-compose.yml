@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  # Django AIサービス
+  ai:
+    build:
+      context: ./ai
+    container_name: ai_craftedgleam
+    ports:
+      - "8000:8000"  # ローカルの8000番ポートをコンテナの8000番ポートにマッピング
+    volumes:
+      - ./ai:/app  # ローカルのaiディレクトリをコンテナ内にマウント
+    environment:
+      - DEBUG=True  # 環境変数（必要に応じて）
+
+  # ASP.NET Core (バックエンド) サービス
+  backend:
+    build:
+      context: ./backend
+    container_name: backend_craftedgleam
+    ports:
+      - "8080:8080"  # バックエンドのポートをマッピング
+    depends_on:
+      - ai  # AIサービスが先に起動するのを待つ
+    #volumes:
+    #  - ./backend:/app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development  # 開発用の環境設定
+
+  # React (フロントエンド) サービス
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend_craftedgleam
+    ports:
+      - "5173:5173"  # viteのデフォルトに合わせているのみ 変更したい場合は、vite.config.jsでserver portを指定する
+    volumes:
+      - ./frontend:/app  # フロントエンドのコードをマウント
+    environment:
+      - NODE_ENV=development  # 開発環境の設定
+    depends_on:
+      - backend  # バックエンドサービスが先に起動するのを待つ
+    command: npm run dev  # devコマンドを使用してViteを起動
+
+  # PostgreSQL データベースサービス
+  db:
+    image: postgres:16
+    container_name: postgres_craftedgleam
+    environment:
+      POSTGRES_DB: craftedgleam
+      POSTGRES_USER: craftedgleam_user
+      POSTGRES_PASSWORD: craftedgleam_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+# 共通ボリュームの設定
+volumes:
+  ai_data:
+  backend_data:
+  frontend_data:
+  postgres_data:
