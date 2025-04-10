@@ -1,0 +1,22 @@
+{
+    "folders": [
+      {
+        "path": "."
+      }
+    ],
+    "settings": {
+      // VSCode共通設定
+      "editor.tabSize": 2,
+      "files.exclude": {
+        "**/.DS_Store": true,
+        "**/*.log": true
+      },
+      "search.exclude": {
+        "**/node_modules": true,
+        "**/bin": true,
+        "**/obj": true,
+        "**/__pycache__": true
+      }
+    }
+  }
+  
