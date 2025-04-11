@@ -20,6 +20,10 @@ out/
 *.sublime-workspace
 *.sublime-project
 
+# Visual Studio Solution files
+*.sln
+
+
 # OS関連
 .DS_Store
 Thumbs.db
