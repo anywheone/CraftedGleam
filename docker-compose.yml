@@ -36,6 +36,7 @@ services:
       - "5173:5173"  # viteのデフォルトに合わせているのみ 変更したい場合は、vite.config.jsでserver portを指定する
     volumes:
       - ./frontend:/app  # フロントエンドのコードをマウント
+      - /app/node_modules  # 追加：これでnode_modulesはホストに上書きされない
     environment:
       - NODE_ENV=development  # 開発環境の設定
     depends_on:
