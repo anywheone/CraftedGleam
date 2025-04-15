@@ -6,12 +6,17 @@ services:
     build:
       context: ./ai
     container_name: ai_craftedgleam
+    command: /entrypoint.sh  # エントリーポイントスクリプトを実行
     ports:
       - "8000:8000"  # ローカルの8000番ポートをコンテナの8000番ポートにマッピング
     volumes:
       - ./ai:/app  # ローカルのaiディレクトリをコンテナ内にマウント
     environment:
       - DEBUG=True  # 環境変数（必要に応じて）
+    depends_on:
+      - db  # PostgreSQLサービスが先に起動するのを待つ
+    networks:
+      - app_network
 
   # ASP.NET Core (バックエンド) サービス
   backend:
@@ -26,6 +31,8 @@ services:
     #  - ./backend:/app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development  # 開発用の環境設定
+    networks:
+      - app_network
 
   # React (フロントエンド) サービス
   frontend:
@@ -42,6 +49,8 @@ services:
     depends_on:
       - backend  # バックエンドサービスが先に起動するのを待つ
     command: npm run dev  # devコマンドを使用してViteを起動
+    networks:
+      - app_network
 
   # PostgreSQL データベースサービス
   db:
@@ -55,6 +64,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    
+networks:
+  app_network:
+    driver: bridge
 
 
 # 共通ボリュームの設定
