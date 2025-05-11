@@ -16,7 +16,8 @@
         "**/bin": true,
         "**/obj": true,
         "**/__pycache__": true
-      }
+      },
+      "makefile.configureOnOpen": false
     }
   }
   
